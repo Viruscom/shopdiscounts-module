@@ -428,9 +428,9 @@ class Discount extends Model
                         $discounts[$fixedDiscount->id] = $fixedDiscount;
                     }
                 } else {
-                    if ($currentAppliesTo == $fixedAmountDiscount->applies_to) {
+                    if ($currentAppliesTo == $fixedDiscount->applies_to) {
                         $discounts[$fixedDiscount->id] = $fixedDiscount;
-                    } else if ($currentAppliesTo < $fixedAmountDiscount->applies_to) {
+                    } else if ($currentAppliesTo < $fixedDiscount->applies_to) {
                         $discounts                     = [];
                         $discounts[$fixedDiscount->id] = $fixedDiscount;
                         $currentAppliesTo              = $fixedDiscount->applies_to;
