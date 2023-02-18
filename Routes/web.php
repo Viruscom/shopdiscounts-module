@@ -11,13 +11,26 @@
 |
 */
 
-Route::prefix('shopdiscounts')->group(function() {
-    Route::get('/', 'ShopDiscountsController@index')->name('discounts.index');
-    Route::get('/create/{type}', 'ShopDiscountsController@create')->name('discounts.create');
-    Route::post('/store/{type}', 'ShopDiscountsController@store')->name('discounts.store');
+use Illuminate\Support\Facades\Route;
+use Modules\ShopDiscounts\Http\Controllers\ShopDiscountsController;
 
-    Route::get('/edit/{id}', 'ShopDiscountsController@edit')->name('discounts.edit');
-    Route::post('/update/{id}', 'ShopDiscountsController@update')->name('discounts.update');
+Route::group(['prefix' => 'admin', 'middleware' => ['auth']], static function () {
+    
+    /* Shop */
+    Route::group(['prefix' => 'shop/discounts'], static function () {
+        Route::get('/', [ShopDiscountsController::class, 'index'])->name('discounts.index');
 
-    Route::get('/delete/{id}', 'ShopDiscountsController@destroy')->name('discounts.delete');
+        /* Discount type */
+        Route::group(['prefix' => '{type}'], static function () {
+            Route::get('create', [ShopDiscountsController::class, 'create'])->name('discounts.create');
+            Route::post('store', [ShopDiscountsController::class, 'store'])->name('discounts.store');
+        });
+
+        /* Discount id */
+        Route::group(['prefix' => '{id}'], static function () {
+            Route::get('edit', [ShopDiscountsController::class, 'edit'])->name('discounts.edit');
+            Route::post('update', [ShopDiscountsController::class, 'update'])->name('discounts.update');
+            Route::get('delete', [ShopDiscountsController::class, 'destroy'])->name('discounts.delete');
+        });
+    });
 });

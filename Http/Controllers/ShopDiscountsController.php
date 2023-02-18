@@ -29,13 +29,7 @@ class ShopDiscountsController extends Controller
 
         return view('shopdiscounts::discounts.index', ['discounts' => $discounts]);
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     *
-     * @return Renderable
-     */
+   
     public function store($type, Request $request)
     {
         $discountData = [];
