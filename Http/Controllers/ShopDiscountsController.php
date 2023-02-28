@@ -6,9 +6,9 @@ use App\Models\User;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\Shop\Entities\Brand;
 use Modules\Shop\Entities\Category;
 use Modules\Shop\Entities\Product;
+use Modules\Shop\Models\Admin\Brand;
 use Modules\ShopDiscounts\Entities\Discount;
 use Modules\ShopDiscounts\Http\Requests\BonusOnItemDiscountRequest;
 use Modules\ShopDiscounts\Http\Requests\FixedAmountDiscountRequest;
@@ -29,7 +29,7 @@ class ShopDiscountsController extends Controller
 
         return view('shopdiscounts::discounts.index', ['discounts' => $discounts]);
     }
-   
+
     public function store($type, Request $request)
     {
         $discountData = [];
