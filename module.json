@@ -1,0 +1,13 @@
+{
+    "name": "ShopDiscounts",
+    "alias": "shopdiscounts",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ShopDiscounts\\Providers\\ShopDiscountsServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
