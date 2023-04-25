@@ -56,7 +56,6 @@ class Discount extends Model
     ];
 
     protected $dates = ['deleted_at'];
-
     public function getHumanReadableType()
     {
         $types = [
@@ -330,6 +329,7 @@ class Discount extends Model
     }
     public static function getBaseQuery()
     {
+
         return Discount::where('active', true)->where('client_group_id', (Auth::guard('shop')->check() ? Auth::guard('shop')->user()->client_group_id : ShopRegisteredUser::$DEFAULT_CLIENT_GROUP_ID))
             ->where(function ($q) {
                 return $q->whereNull('valid_from')->orWhere('valid_from', '>=', Carbon::now()->startOfDay());

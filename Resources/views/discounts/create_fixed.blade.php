@@ -179,7 +179,6 @@
             @include('admin.partials.on_create.form_actions_bottom')
         </div>
     </form>
-
     <script>
         $(document).ready(function () {
             showInput("#applies_to");
