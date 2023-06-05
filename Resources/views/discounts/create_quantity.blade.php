@@ -3,6 +3,7 @@
 @section('content')
     @include('shopdiscounts::admin.breadcrumbs')
     @include('admin.notify')
+
     <form method="POST" action="{{route('discounts.store',['type'=>$type])}}">
         @csrf
         @include('admin.partials.on_create.form_actions_top')

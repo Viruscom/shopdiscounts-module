@@ -83,6 +83,7 @@ class ShopDiscountsController extends Controller
 
         return redirect(route('discounts.index'))->with('success', __('Successful store'));
     }
+
     public function create($type)
     {
         $products     = Product::all();

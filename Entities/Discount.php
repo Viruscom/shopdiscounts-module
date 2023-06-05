@@ -62,6 +62,7 @@ class Discount extends Model
             self::$FIXED_FREE_DELIVERY_TYPE_ID => trans('shop::admin.discounts.type_fixed_free_delivery'),
             self::$QUANTITY_TYPE_ID            => trans('shop::admin.discounts.type_quantity'),
             self::$BONUS_ON_ITEM_TYPE_ID       => trans('shop::admin.discounts.type_bonus_on_item'),
+
         ];
 
         return $types[$this->type_id];

@@ -60,7 +60,6 @@
                                     </span>
                 @enderror
             </div>
-
         </div>
         <div class="col-md-6 col-xs-12">
             <div class="form-group">

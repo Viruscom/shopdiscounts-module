@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'shopdiscounts' => 
+  'shopdiscounts' =>
   array (
     'index' => 'Отстъпки',
     'create' => 'Добавяне на',
