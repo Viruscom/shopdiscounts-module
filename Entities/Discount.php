@@ -2,16 +2,14 @@
 
 namespace Modules\ShopDiscounts\Entities;
 
-use App\Models\User;
 use Auth;
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Modules\Shop\Entities\ShopRegisteredUser;
+use Modules\Shop\Entities\RegisteredUser\ShopRegisteredUser;
 use Modules\Shop\Models\Admin\Brand;
 use Modules\Shop\Models\Admin\ProductCategory\Category;
 use Modules\Shop\Models\Admin\Products\Product;
@@ -54,20 +52,6 @@ class Discount extends Model
     ];
 
     protected $dates = ['deleted_at'];
-    public function getHumanReadableType()
-    {
-        $types = [
-            self::$FIXED_AMOUNT_TYPE_ID        => trans('shop::admin.discounts.type_fixed_amount'),
-            self::$FIXED_PERCENT_TYPE_ID       => trans('shop::admin.discounts.type_fixed_percent'),
-            self::$FIXED_FREE_DELIVERY_TYPE_ID => trans('shop::admin.discounts.type_fixed_free_delivery'),
-            self::$QUANTITY_TYPE_ID            => trans('shop::admin.discounts.type_quantity'),
-            self::$BONUS_ON_ITEM_TYPE_ID       => trans('shop::admin.discounts.type_bonus_on_item'),
-
-        ];
-
-        return $types[$this->type_id];
-    }
-
     public static function getTypes()
     {
         return [
@@ -212,8 +196,6 @@ class Discount extends Model
 
         return $data;
     }
-
-    //time zone should be properly set because it compares to current datetime
     private static function calculateIsActive($validFrom, $validUntil)
     {
         $now = Carbon::now();
@@ -229,6 +211,8 @@ class Discount extends Model
 
         return $fc && $sc;
     }
+
+    //time zone should be properly set because it compares to current datetime
     public static function generateQuantityDiscountData($requestData)
     {
         $data                    = [];
@@ -475,6 +459,19 @@ class Discount extends Model
     protected static function newFactory()
     {
         return DiscountFactory::new();
+    }
+    public function getHumanReadableType()
+    {
+        $types = [
+            self::$FIXED_AMOUNT_TYPE_ID        => trans('shop::admin.discounts.type_fixed_amount'),
+            self::$FIXED_PERCENT_TYPE_ID       => trans('shop::admin.discounts.type_fixed_percent'),
+            self::$FIXED_FREE_DELIVERY_TYPE_ID => trans('shop::admin.discounts.type_fixed_free_delivery'),
+            self::$QUANTITY_TYPE_ID            => trans('shop::admin.discounts.type_quantity'),
+            self::$BONUS_ON_ITEM_TYPE_ID       => trans('shop::admin.discounts.type_bonus_on_item'),
+
+        ];
+
+        return $types[$this->type_id];
     }
     public function updateActive()
     {
