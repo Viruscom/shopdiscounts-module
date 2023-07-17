@@ -63,7 +63,7 @@
                                 <td>{{$discount->getHumanReadableType()}}</td>
                                 <td>{{$discount->created_at}}</td>
                                 <td class="text-right">
-                                    <a class="btn btn-warning" href="{{route('discounts.edit',['id'=>$discount->id])}}">{{ __('edit') }}</a>
+                                    <a href="{{route('discounts.edit',['id'=>$discount->id])}}" class="btn green tooltips" role="button" data-toggle="tooltip" data-placement="auto" title="" data-original-title="{{ __('admin.edit') }}"><i class="fas fa-pencil-alt"></i></a>
                                 </td>
                             </tr>
                         @endforeach
