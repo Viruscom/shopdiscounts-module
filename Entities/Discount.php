@@ -363,8 +363,11 @@ class Discount extends Model
                 return $quantityDiscount;
             }
         }
-
-        return null;
+    }
+    public static function getQuantityDiscountAbstract($product)
+    {
+        return Discount::getBaseQuery()->where('type_id', Discount::$QUANTITY_TYPE_ID)
+            ->where('product_id', $product->id)->orderBy('created_at', 'desc')->first();
     }
     public static function getFreeDeliveryDiscount($basketProduct, $promoCode)
     {
@@ -390,6 +393,24 @@ class Discount extends Model
                 });
             })->get()->first();
     }
+
+    public static function getFreeDeliveryDiscountAbstract($product)
+    {
+        return Discount::getBaseQuery()->where('type_id', Discount::$FIXED_FREE_DELIVERY_TYPE_ID)
+            ->where(function ($q) use ($product) {
+                return $q->where(function ($qq) {
+                    return $qq->where('applies_to', Discount::$EVERY_PRODUCT_APPLICATION);
+                })->orWhere(function ($qq) use ($product) {
+                    return $qq->where('applies_to', Discount::$PRODUCT_APPLICATION)->where('product_id', $product->id);
+                })->orWhere(function ($qq) use ($product) {
+                    return $qq->where('applies_to', Discount::$CATEGORY_APPLICATION)->whereHas('categories', function ($qqq) use ($product) {
+                        return $qqq->where('category_id', $product->category_id);
+                    });
+                })->orWhere(function ($qq) use ($product) {
+                    return $qq->where('applies_to', Discount::$BRAND_APPLICATION)->where('brand_id', $product->brand->id);
+                });
+            })->get()->first();
+    }
     public static function getFixedDiscounts($basketProduct, $promoCode)
     {
         $fixedDiscounts = Discount::getBaseQuery()->whereIn('type_id', [Discount::$FIXED_PERCENT_TYPE_ID, Discount::$FIXED_AMOUNT_TYPE_ID])
@@ -411,6 +432,53 @@ class Discount extends Model
                     });
                 })->orWhere(function ($qq) use ($basketProduct) {
                     return $qq->where('applies_to', Discount::$BRAND_APPLICATION)->where('brand_id', $basketProduct->product->brand->id);
+                });
+            })->get();
+
+        $discounts        = [];
+        $currentAppliesTo = null;
+        foreach ($fixedDiscounts as $fixedDiscount) {
+            if (count($discounts) == 0) {
+                $discounts[$fixedDiscount->id] = $fixedDiscount;
+                $currentAppliesTo              = $fixedDiscount->applies_to;
+            } else {
+                if ($currentAppliesTo == Discount::$PRODUCT_APPLICATION) {
+                    if ($fixedDiscount->applies_to == Discount::$PRODUCT_APPLICATION) {
+                        $discounts[$fixedDiscount->id] = $fixedDiscount;
+                    }
+                } else {
+                    if ($currentAppliesTo == $fixedDiscount->applies_to) {
+                        $discounts[$fixedDiscount->id] = $fixedDiscount;
+                    } else if ($currentAppliesTo < $fixedDiscount->applies_to) {
+                        $discounts                     = [];
+                        $discounts[$fixedDiscount->id] = $fixedDiscount;
+                        $currentAppliesTo              = $fixedDiscount->applies_to;
+                    }
+                }
+            }
+        }
+
+        if (count($discounts) < 1) {
+            return null;
+        }
+
+        return $discounts;
+    }
+
+    public static function getFixedDiscountsAbstract($product)
+    {
+        $fixedDiscounts = Discount::getBaseQuery()->whereIn('type_id', [Discount::$FIXED_PERCENT_TYPE_ID, Discount::$FIXED_AMOUNT_TYPE_ID])
+            ->where(function ($q) use ($product) {
+                return $q->where(function ($qq) {
+                    return $qq->where('applies_to', Discount::$EVERY_PRODUCT_APPLICATION);
+                })->orWhere(function ($qq) use ($product) {
+                    return $qq->where('applies_to', Discount::$PRODUCT_APPLICATION)->where('product_id', $product->id);
+                })->orWhere(function ($qq) use ($product) {
+                    return $qq->where('applies_to', Discount::$CATEGORY_APPLICATION)->whereHas('categories', function ($qqq) use ($product) {
+                        return $qqq->where('category_id', $product->category_id);
+                    });
+                })->orWhere(function ($qq) use ($product) {
+                    return $qq->where('applies_to', Discount::$BRAND_APPLICATION)->where('brand_id', $product->brand->id);
                 });
             })->get();
 
