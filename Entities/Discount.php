@@ -114,9 +114,7 @@ class Discount extends Model
                         return $qq->whereIn('applies_to', [self::$ABOVE_ORDER_VALUE_APPLICATION, self::$EVERY_PRODUCT_APPLICATION]);
                     })->orWhere(function ($qq) use ($product) {
                         return $qq->where('applies_to', self::$CATEGORY_APPLICATION)->whereHas('categories', function ($qqq) use ($product) {
-                            return $qqq->whereHas('categories', function ($qqqq) use ($product) {
-                                return $qqqq->where('category_id', $product->category_id);
-                            });
+                            return $qqq->where('category_id', $product->category_id);
                         });
                     });
                 })->get();
