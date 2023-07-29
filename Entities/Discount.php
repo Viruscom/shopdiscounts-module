@@ -310,13 +310,14 @@ class Discount extends Model
     }
     public static function getBaseQuery()
     {
-
         return Discount::where('active', true)->where('client_group_id', (Auth::guard('shop')->check() ? Auth::guard('shop')->user()->client_group_id : ShopRegisteredUser::$DEFAULT_CLIENT_GROUP_ID))
             ->where(function ($q) {
-                return $q->whereNull('valid_from')->orWhere('valid_from', '>=', Carbon::now()->startOfDay());
-            })->where(function ($q) {
-                return $q->whereNull('valid_until')->orWhere('valid_until', '<=', Carbon::now()->endOfDay());
-            })->where(function ($q) {
+                return $q->whereNull('valid_from')->orWhere('valid_from', '<=', Carbon::now()->startOfDay());
+            })
+            ->where(function ($q) {
+                return $q->whereNull('valid_until')->orWhere('valid_until', '>=', Carbon::now()->endOfDay());
+            })
+            ->where(function ($q) {
                 return $q->whereNull('max_uses')->orWhereRaw('max_uses-current_uses > 0');
             });
     }
@@ -362,7 +363,7 @@ class Discount extends Model
             }
         }
     }
-   
+
     public static function getFreeDeliveryDiscount($basketProduct, $promoCode)
     {
         return Discount::getBaseQuery()->where('type_id', Discount::$FIXED_FREE_DELIVERY_TYPE_ID)
@@ -390,7 +391,7 @@ class Discount extends Model
 
     public static function getFixedDiscounts($basketProduct, $promoCode)
     {
-        $fixedDiscounts = Discount::getBaseQuery()->whereIn('type_id', [Discount::$FIXED_PERCENT_TYPE_ID, Discount::$FIXED_AMOUNT_TYPE_ID])
+        $fixedDiscounts   = Discount::getBaseQuery()->whereIn('type_id', [Discount::$FIXED_PERCENT_TYPE_ID, Discount::$FIXED_AMOUNT_TYPE_ID])
             ->where(function ($q) use ($promoCode) {
                 $qq = $q->whereNull('promo_code');
                 if (!is_null($promoCode)) {
@@ -411,7 +412,6 @@ class Discount extends Model
                     return $qq->where('applies_to', Discount::$BRAND_APPLICATION)->where('brand_id', $basketProduct->product->brand->id);
                 });
             })->get();
-
         $discounts        = [];
         $currentAppliesTo = null;
         foreach ($fixedDiscounts as $fixedDiscount) {
@@ -445,7 +445,7 @@ class Discount extends Model
     public static function getDiscountsAmount($discounts, $basketProductVatAppliedPrice)
     {
         $calcDiscountAmount = 0;
-        if(!is_null($discounts)) {
+        if (!is_null($discounts)) {
             foreach ($discounts as $discountId => $discount) {
                 if ($discount->type_id == Discount::$FIXED_AMOUNT_TYPE_ID) {
                     $calcDiscountAmount += $discount->value;
