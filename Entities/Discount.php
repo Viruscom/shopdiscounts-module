@@ -118,7 +118,6 @@ class Discount extends Model
                         });
                     });
                 })->get();
-
             foreach ($productDiscounts as $productDiscount) {
                 if ($productDiscount->type_id == self::$FIXED_AMOUNT_TYPE_ID) {
                     $productDiscountsAmount += $productDiscount->value;
@@ -126,9 +125,8 @@ class Discount extends Model
                     $productDiscountsAmount += $product->price * ($productDiscount->value / 100);
                 }
             }
-
             if (($product->price - $productDiscountsAmount) <= $product->supplier_delivery_price) {
-                return true;
+                return false;
             }
         }
 
@@ -294,7 +292,7 @@ class Discount extends Model
             ->where(function ($q) use ($basket) {
                 $qq = $q->whereNull('promo_code');
                 if (!is_null($basket->promo_code)) {
-                    $qq = $qq->where('promo_code', $basket->promo_code);
+                    $qq = $qq->orWhere('promo_code', $basket->promo_code);
                 }
 
                 return $qq;
@@ -331,7 +329,7 @@ class Discount extends Model
             ->where(function ($q) use ($basket) {
                 $qq = $q->whereNull('promo_code');
                 if (!is_null($basket->promo_code)) {
-                    $qq = $qq->where('promo_code', $basket->promo_code);
+                    $qq = $qq->orWhere('promo_code', $basket->promo_code);
                 }
 
                 return $qq;
@@ -370,7 +368,7 @@ class Discount extends Model
             ->where(function ($q) use ($promoCode) {
                 $qq = $q->whereNull('promo_code');
                 if (!is_null($promoCode)) {
-                    $qq = $qq->where('promo_code', $promoCode);
+                    $qq = $qq->orWhere('promo_code', $promoCode);
                 }
 
                 return $qq;
@@ -395,7 +393,7 @@ class Discount extends Model
             ->where(function ($q) use ($promoCode) {
                 $qq = $q->whereNull('promo_code');
                 if (!is_null($promoCode)) {
-                    $qq = $qq->where('promo_code', $promoCode);
+                    $qq = $qq->orWhere('promo_code', $promoCode);
                 }
 
                 return $qq;
