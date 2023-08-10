@@ -139,7 +139,21 @@
                                         </thead>
                                         <tbody>
                                         @php
-                                            $prices = $discount->getPrices();
+                                            $prices = json_decode($discount->getPrices(), true);
+                                            $pricesString = trim($discount->getPrices(), '"');
+$pricesObject = json_decode($pricesString);
+
+if ($pricesObject) {
+    $fromQuantity = $pricesObject->from_quantity;
+    $toQuantity = $pricesObject->to_quantity;
+    $price = $pricesObject->price;
+
+    // Do something with $fromQuantity, $toQuantity, and $price
+    echo "From Quantity: $fromQuantity, To Quantity: $toQuantity, Price: $price<br>";
+} else {
+    echo "The decoded value is not an object.";
+}
+dd(123);
                                         @endphp
                                         @for($i=0;$i<count($prices);$i++)
                                             <tr>
