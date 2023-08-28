@@ -72,20 +72,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="value" class="control-label p-b-10"><span class="text-purple">* </span>@lang('shop::admin.discounts.amount')</label>
-
-                    <div>
-                        <input id="value" type="number" min="0" step="0.01" class="form-control @error('value') is-invalid @enderror" name="value" value="{{ old('value') }}" autocomplete="value" autofocus required>
-
-                        @error('value')
-                        <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="form-group">
                     <label for="value_type_id" class="control-label p-b-10"><span class="text-purple">* </span>@lang('shop::admin.discounts.amount_type')</label>
 
                     <div>
@@ -103,6 +89,19 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label for="value" class="control-label p-b-10"><span class="text-purple">* </span>@lang('shop::admin.discounts.amount')</label>
+
+                    <div>
+                        <input id="value" type="number" min="0" step="0.01" class="form-control @error('value') is-invalid @enderror" name="value" value="{{ old('value') }}" autocomplete="value" autofocus required>
+
+                        @error('value')
+                        <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                        @enderror
+                    </div>
+                </div>
             </div>
 
             <div class="col-md-6 col-xs-12">
@@ -154,10 +153,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="active" class="control-label p-b-10"><span class="text-purple">* </span>{{ __('Active') }}</label>
+                    <label for="active" class="control-label p-b-10"><span class="text-purple">* </span>{{ __('shop::admin.discounts.active') }}</label>
                     <select id="active" class="form-control @error('active') is-invalid @enderror" name="active" required autofocus>
-                        <option value="0" {{old('active')==0 ? 'selected':''}}>{{__('No')}}</option>
-                        <option value="1" {{old('active')==1 ? 'selected':''}}>{{__('Yes')}}</option>
+                        <option value="0" {{old('active')==0 ? 'selected':''}}>{{ __('admin.common.no') }}</option>
+                        <option value="1" {{old('active')==1 ? 'selected':''}}>{{ __('admin.common.yes') }}</option>
                     </select>
 
                     @error('active')

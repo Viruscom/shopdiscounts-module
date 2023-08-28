@@ -50,11 +50,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="active" class="control-label p-b-10"><span class="text-purple">* </span>{{ __('Active') }}</label>
+                    <label for="active" class="control-label p-b-10"><span class="text-purple">* </span>{{ __('shop::admin.discounts.active') }}</label>
 
                     <select id="active" class="form-control @error('active') is-invalid @enderror" name="active" required>
-                        <option value="0" {{old('active')==0 || $discount->active==0 ? 'selected':''}}>{{__('No')}}</option>
-                        <option value="1" {{old('active')==1 || $discount->active==1 ? 'selected':''}}>{{__('Yes')}}</option>
+                        <option value="0" {{old('active')==0 || $discount->active==0 ? 'selected':''}}>{{ __('admin.common.no') }}</option>
+                        <option value="1" {{old('active')==1 || $discount->active==1 ? 'selected':''}}>{{ __('admin.common.yes') }}</option>
                     </select>
 
                     @error('active')
@@ -116,7 +116,7 @@
                 </div>
 
                 <div style="display:none" class="form-group applies-to-input applies-to-input-{{Modules\ShopDiscounts\Entities\Discount::$PRODUCT_APPLICATION}}">
-                    <label for="product_id" class="control-label p-b-10">@lang('shop::admin.discounts.choose_product')*</label>
+                    <label for="product_id" class="control-label p-b-10"><span class="text-purple">* </span>@lang('shop::admin.discounts.choose_product')</label>
 
                     <select id="product_id" class="should-be-required form-control @error('product_id') is-invalid @enderror" name="product_id">
                         @foreach($products as $product)
