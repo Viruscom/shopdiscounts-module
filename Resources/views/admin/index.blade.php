@@ -3,6 +3,7 @@
 @section('content')
     @include('shopdiscounts::admin.breadcrumbs')
     @include('admin.notify')
+    @include('admin.partials.modals.delete_confirm')
     <div class="col-xs-12 p-0">
         <div class="bg-grey top-search-bar">
             <div class="checkbox-all pull-left p-10 p-l-0">
@@ -64,6 +65,7 @@
                                 <td>{{$discount->created_at}}</td>
                                 <td class="text-right">
                                     <a href="{{route('discounts.edit',['id'=>$discount->id])}}" class="btn green tooltips" role="button" data-toggle="tooltip" data-placement="auto" title="" data-original-title="{{ __('admin.edit') }}"><i class="fas fa-pencil-alt"></i></a>
+                                    <a href="{{ route('discounts.delete', ['id' => $discount->id]) }}" class="btn red btn-delete-confirm tooltips" data-toggle="tooltip" data-placement="auto" title="" data-original-title="{{ __('admin.delete') }}"><i class="fas fa-trash-alt"></i></a>
                                 </td>
                             </tr>
                         @endforeach
