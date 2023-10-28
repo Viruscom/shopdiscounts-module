@@ -2,8 +2,8 @@
 
     namespace Modules\ShopDiscounts\Http\Requests;
 
-    use App\Models\User;
     use Illuminate\Foundation\Http\FormRequest;
+    use Modules\Shop\Entities\RegisteredUser\ShopRegisteredUser;
     use Modules\ShopDiscounts\Entities\Discount;
 
     class FreeDeliveryDiscountRequest extends FormRequest
@@ -17,7 +17,7 @@
         {
             $rules = [
                 'name'            => 'required|min:2|max:255',
-                'client_group_id' => 'nullable|in:' . implode(',', User::getClientGroups()),
+                'client_group_id' => 'nullable|in:' . implode(',', ShopRegisteredUser::getClientGroups()),
                 'valid_from'      => 'nullable|date',
                 'valid_until'     => 'nullable|date',
                 'max_uses'        => 'nullable|integer|min:1',
@@ -40,7 +40,7 @@
                     $rules['categories_ids.*'] = 'exists:categories,id';
                     break;
                 case Discount::$BRAND_APPLICATION:
-                    $rules['brand_id'] = 'required|exists:brands,id';
+                    $rules['brand_id'] = 'required|exists:product_brands,id';
                     break;
                 case Discount::$ABOVE_ORDER_VALUE_APPLICATION:
                     $rules['order_value'] = 'required|numeric|min:0';
