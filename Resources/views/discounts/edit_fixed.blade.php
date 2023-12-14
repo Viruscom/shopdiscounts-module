@@ -13,6 +13,10 @@
             @include('admin.partials.on_edit.form_actions_top')
         </div>
         <div class="row">
+            <div class="col-xs-12">
+                <h3>Редакция на отстъпка тип: <strong>{{ request()->segment(4) == 1 ? 'Фиксирана стойност' : 'Фиксиран процент' }}</strong></h3><br>
+            </div>
+            
             <div class="col-md-6 col-xs-12">
                 @include('admin.partials.on_edit.form_fields.input_text_without_lang', ['fieldName' => 'name', 'label' => trans('shop::admin.discounts.name'), 'required' => true, 'model' => $discount])
 
