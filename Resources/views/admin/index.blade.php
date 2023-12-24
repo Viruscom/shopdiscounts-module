@@ -65,6 +65,11 @@
                                 <td>{{$discount->created_at}}</td>
                                 <td class="text-right">
                                     <a href="{{route('discounts.edit',['id'=>$discount->id])}}" class="btn green tooltips" role="button" data-toggle="tooltip" data-placement="auto" title="" data-original-title="{{ __('admin.edit') }}"><i class="fas fa-pencil-alt"></i></a>
+                                    @if(!$discount->active)
+                                        <a href="{{ route('discounts.changeStatus', ['id'=> $discount->id, 'active'=>1]) }}" role="button" class="btn light-grey-eye visibility-activate tooltips" data-toggle="tooltip" data-placement="auto" title="" data-original-title="{{ __('admin.show') }}"><i class="far fa-eye-slash"></i></a>
+                                    @else
+                                        <a href="{{ route('discounts.changeStatus', ['id'=> $discount->id, 'active'=>0]) }}" role="button" class="btn grey-eye visibility-unactive tooltips" data-toggle="tooltip" data-placement="auto" title="" data-original-title="{{ __('admin.hide') }}"><i class="far fa-eye"></i></a>
+                                    @endif
                                     <a href="{{ route('discounts.delete', ['id' => $discount->id]) }}" class="btn red btn-delete-confirm tooltips" data-toggle="tooltip" data-placement="auto" title="" data-original-title="{{ __('admin.delete') }}"><i class="fas fa-trash-alt"></i></a>
                                 </td>
                             </tr>
