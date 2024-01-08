@@ -14,7 +14,17 @@
         </div>
         <div class="row">
             <div class="col-xs-12">
-                <h3>Редакция на отстъпка тип: <strong>{{ $discount->type_id == 1 ? 'Фиксирана стойност' : 'Фиксиран процент' }}</strong></h3><br>
+                <h3>Редакция на отстъпка тип: <strong>
+                        @if($discount->type_id == 1)
+                            Фиксирана стойност
+                        @endif
+                        @if($discount->type_id == 2)
+                            Фиксиран процент
+                        @endif
+                        @if($discount->type_id == 3)
+                            Безплатна доставка
+                        @endif
+                    </strong></h3><br>
             </div>
 
             <div class="col-md-6 col-xs-12">
