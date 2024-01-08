@@ -41,7 +41,9 @@
 
                 @if($type != Modules\ShopDiscounts\Entities\Discount::$FIXED_FREE_DELIVERY_TYPE_ID)
                     <div class="form-group">
-                        <label for="value" class="control-label p-b-10"><span class="text-purple">* </span>@lang('shop::admin.discounts.amount')</label>
+                        <label for="value" class="control-label p-b-10"><span class="text-purple">* </span>@lang('shop::admin.discounts.amount') @if(request()->segment(4) == 2)
+                                %
+                            @endif</label>
                         <input id="value" type="number" min="0" step="0.01" class="form-control @error('value') is-invalid @enderror" name="value" value="{{ old('value') }}" autocomplete="value" required>
                         @error('value')
                         <span class="invalid-feedback" role="alert">
@@ -196,7 +198,25 @@
     <script>
         $(document).ready(function () {
             showInput("#applies_to");
+
+            if (getUrlSegment() == 3) {
+                updateAppliesToSelect();
+            }
         })
+
+        function updateAppliesToSelect() {
+            var select = $('#applies_to');
+            select.val('5');
+            select.trigger('change');
+            var optionValue3 = select.find('option[value="5"]');
+            select.empty().append(optionValue3);
+        }
+
+        function getUrlSegment() {
+            var url      = window.location.href;
+            var segments = url.split('/');
+            return segments[6];
+        }
 
         function showInput(el) {
             $(".applies-to-input").hide();

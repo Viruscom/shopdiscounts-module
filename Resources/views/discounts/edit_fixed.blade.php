@@ -14,9 +14,9 @@
         </div>
         <div class="row">
             <div class="col-xs-12">
-                <h3>Редакция на отстъпка тип: <strong>{{ request()->segment(4) == 1 ? 'Фиксирана стойност' : 'Фиксиран процент' }}</strong></h3><br>
+                <h3>Редакция на отстъпка тип: <strong>{{ $discount->type_id == 1 ? 'Фиксирана стойност' : 'Фиксиран процент' }}</strong></h3><br>
             </div>
-            
+
             <div class="col-md-6 col-xs-12">
                 @include('admin.partials.on_edit.form_fields.input_text_without_lang', ['fieldName' => 'name', 'label' => trans('shop::admin.discounts.name'), 'required' => true, 'model' => $discount])
 
@@ -33,7 +33,9 @@
 
                 @if($discount->type_id != Modules\ShopDiscounts\Entities\Discount::$FIXED_FREE_DELIVERY_TYPE_ID)
                     <div class="form-group">
-                        <label for="value" class="control-label p-b-10"><span class="text-purple">* </span>@lang('shop::admin.discounts.amount')</label>
+                        <label for="value" class="control-label p-b-10"><span class="text-purple">* </span>@lang('shop::admin.discounts.amount') @if($discount->type_id == 2)
+                                %
+                            @endif</label>
                         <input id="value" type="number" min="0" step="0.01" class="form-control @error('value') is-invalid @enderror" name="value" value="{{ old('value') ?? $discount->value }}" autocomplete="value" required>
                         @error('value')
                         <span class="invalid-feedback" role="alert">
@@ -188,7 +190,19 @@
     <script>
         $(document).ready(function () {
             showInput("#applies_to");
+
+            if ({{$discount->type_id}} == 3) {
+                updateAppliesToSelect();
+            }
         })
+
+        function updateAppliesToSelect() {
+            var select = $('#applies_to');
+            select.val('5');
+            select.trigger('change');
+            var optionValue3 = select.find('option[value="5"]');
+            select.empty().append(optionValue3);
+        }
 
         function showInput(el) {
             $(".applies-to-input").hide();
