@@ -10,7 +10,7 @@
             <div class="col-xs-12">
                 <h3>Редактиране на отстъпка тип: <strong>Бонус върху продукт</strong></h3><br>
             </div>
-            
+
             <div class="col-md-6 col-xs-12">
                 @include('admin.partials.on_edit.form_fields.input_text_without_lang', ['fieldName' => 'name', 'label' => trans('shop::admin.discounts.name'), 'required' => true, 'model' => $discount])
 

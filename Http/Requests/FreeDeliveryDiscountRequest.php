@@ -2,6 +2,7 @@
 
     namespace Modules\ShopDiscounts\Http\Requests;
 
+    use App\Models\User;
     use Illuminate\Foundation\Http\FormRequest;
     use Modules\Shop\Entities\RegisteredUser\ShopRegisteredUser;
     use Modules\ShopDiscounts\Entities\Discount;

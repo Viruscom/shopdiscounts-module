@@ -22,7 +22,8 @@
                         @if(request()->segment(4) == 3)
                             Безплатна доставка
                         @endif
-                    </strong></h3><br>
+                    </strong>
+                </h3><br>
             </div>
 
             <div class="col-md-6 col-xs-12">
@@ -166,7 +167,7 @@
 
                     <select multiple id="categories_ids" class="should-be-required form-control @error('categories_ids.*') is-invalid @enderror" name="categories_ids[]">
                         @foreach($categories as $category)
-                            <option value="{{$category->id}}" {{is_array(old('categories_ids')) && in_array($category->id , old('categories_ids')) ? 'selected':''}}>{{__('Category ').$category->id}}</option>
+                            <option value="{{$category->id}}" {{is_array(old('categories_ids')) && in_array($category->id , old('categories_ids')) ? 'selected':''}}>{{$category->title}}</option>
                         @endforeach
                     </select>
 
@@ -211,9 +212,8 @@
             var optionValue3 = select.find('option[value="5"]');
             select.empty().append(optionValue3);
         }
-
         function getUrlSegment() {
-            var url      = window.location.href;
+            var url = window.location.href;
             var segments = url.split('/');
             return segments[6];
         }

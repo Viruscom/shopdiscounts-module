@@ -13,7 +13,7 @@
             <div class="col-xs-12">
                 <h3>Отстъпка тип: <strong>Бонус върху продукт</strong></h3><br>
             </div>
-            
+
             <div class="col-md-6 col-xs-12">
                 @include('admin.partials.on_create.form_fields.input_text', ['fieldName' => 'name', 'label' => trans('shop::admin.discounts.name'), 'required' => true])
 

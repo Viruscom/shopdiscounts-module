@@ -11,7 +11,7 @@
             <div class="col-xs-12">
                 <h3>Отстъпка тип: <strong>Количествена</strong></h3><br>
             </div>
-            
+
             <div class="col-md-6 col-xs-12">
                 @include('admin.partials.on_create.form_fields.input_text', ['fieldName' => 'name', 'label' => trans('shop::admin.discounts.name'), 'required' => true])
 
@@ -153,20 +153,20 @@
                 </table>
 
                 <script>
-                    $(document).ready(function () {
+                    $(document).ready(function() {
                         var tableBody = $('#discounts-prices-table tbody');
-                        var count     = {{ $count }}; // Initialize count variable with PHP value
+                        var count = {{ $count }}; // Initialize count variable with PHP value
 
                         function updateRowIndexes() {
-                            tableBody.find('tr').each(function (index) {
+                            tableBody.find('tr').each(function(index) {
                                 var deleteButton = $(this).find('.delete-row');
                                 if (deleteButton.length > 0) {
                                     $(this).attr('data-row-index', index);
                                     deleteButton.attr('data-row-index', index);
 
                                     var fromQuantityInput = $(this).find('input[name^="prices"][name$="[from_quantity]"]');
-                                    var toQuantityInput   = $(this).find('input[name^="prices"][name$="[to_quantity]"]');
-                                    var priceInput        = $(this).find('input[name^="prices"][name$="[price]"]');
+                                    var toQuantityInput = $(this).find('input[name^="prices"][name$="[to_quantity]"]');
+                                    var priceInput = $(this).find('input[name^="prices"][name$="[price]"]');
 
                                     fromQuantityInput.attr('name', 'prices[' + index + '][from_quantity]');
                                     toQuantityInput.attr('name', 'prices[' + index + '][to_quantity]');
@@ -184,12 +184,12 @@
                             }
                         }
 
-                        tableBody.on('click', '.delete-row', function () {
+                        tableBody.on('click', '.delete-row', function() {
                             var rowIndex = parseInt($(this).attr('data-row-index'));
                             deleteRow(rowIndex);
                         });
 
-                        $('#add-row-btn').click(function () {
+                        $('#add-row-btn').click(function() {
                             var newRow = $('<tr>');
                             newRow.html(`
       <td>

@@ -2,10 +2,11 @@
 
     namespace Modules\ShopDiscounts\Http\Requests;
 
-    use Illuminate\Foundation\Http\FormRequest;
+    use App\Models\User;
     use Modules\Shop\Entities\RegisteredUser\ShopRegisteredUser;
     use Modules\ShopDiscounts\Entities\Discount;
     use Modules\ShopProduct\Entities\Product;
+    use Illuminate\Foundation\Http\FormRequest;
 
     class FixedAmountDiscountRequest extends FormRequest
     {

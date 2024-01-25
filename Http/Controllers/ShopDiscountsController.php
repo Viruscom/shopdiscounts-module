@@ -2,7 +2,9 @@
 
     namespace Modules\ShopDiscounts\Http\Controllers;
 
+    use App\Helpers\MainHelper;
     use App\Helpers\WebsiteHelper;
+    use App\Models\Pages\Page;
     use App\Models\User;
     use Illuminate\Contracts\Support\Renderable;
     use Illuminate\Http\RedirectResponse;
@@ -147,23 +149,7 @@
                     return abort(404);
             }
         }
-        public function destroy($id)
-        {
-            $discount = Discount::find($id);
-            WebsiteHelper::redirectBackIfNull($discount);
-            $discount->delete();
 
-            return redirect(route('discounts.index'))->with('success-message', trans('admin.common.successful_delete'));
-        }
-        public function active($id, $active): RedirectResponse
-        {
-            $discount = Discount::find($id);
-            WebsiteHelper::redirectBackIfNull($discount);
-
-            $discount->update(['active' => $active]);
-
-            return redirect()->back()->with('success-message', 'admin.common.successful_edit');
-        }
         public function update($id, Request $request)
         {
             $discount = Discount::find($id);
@@ -223,5 +209,24 @@
             $discount->categories()->sync($categoriesIds);
 
             return redirect(route('discounts.index'))->with('success-message', trans('admin.common.successful_edit'));
+        }
+
+        public function destroy($id)
+        {
+            $discount = Discount::find($id);
+            WebsiteHelper::redirectBackIfNull($discount);
+            $discount->delete();
+
+            return redirect(route('discounts.index'))->with('success-message', trans('admin.common.successful_delete'));
+        }
+
+        public function active($id, $active): RedirectResponse
+        {
+            $discount = Discount::find($id);
+            WebsiteHelper::redirectBackIfNull($discount);
+
+            $discount->update(['active' => $active]);
+
+            return redirect()->back()->with('success-message', 'admin.common.successful_edit');
         }
     }
